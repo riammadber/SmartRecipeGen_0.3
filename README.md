@@ -1,1 +1,1 @@
-# SmartRecipeGen_0.3
+SmartRecipeGen_0.2
