@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { SupabaseConfig } from '@/components/SupabaseConfig'
+import { RecipeGenerator } from '@/components/RecipeGenerator'
 
 function App() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [supabaseConfig, setSupabaseConfig] = useState<{url: string, anonKey: string} | null>(null);
+
+  const handleConnect = (url: string, anonKey: string) => {
+    setSupabaseConfig({ url, anonKey });
+    setIsConnected(true);
+  };
+
+  const handleDisconnect = () => {
+    setIsConnected(false);
+    setSupabaseConfig(null);
+  };
+
+  if (!isConnected) {
+    return <SupabaseConfig onConnect={handleConnect} />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          SmartRecipeGen
-        </h1>
-        <p className="text-lg text-gray-600">
-          Your intelligent recipe generator is ready!
-        </p>
-      </div>
-    </div>
+    <RecipeGenerator onDisconnect={handleDisconnect} />
   )
 }
 
